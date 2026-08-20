@@ -1,0 +1,493 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<title>Programme - Manager ses permanents en agence</title>
+<style>
+  :root{
+    --rouge:#c8102e;
+    --rouge-fonce:#8f0c21;
+    --gris-fonce:#2b2b2b;
+    --gris-texte:#3d3d3d;
+    --gris-clair:#f4f4f4;
+    --bordeau:#5c0f1e;
+    --vert:#1e7d4c;
+    --bleu:#1a5b8c;
+    --orange:#c8681a;
+  }
+  *{box-sizing:border-box;}
+  body{
+    font-family:'Segoe UI', Arial, Helvetica, sans-serif;
+    color:var(--gris-texte);
+    margin:0;
+    background:#ffffff;
+    line-height:1.55;
+  }
+  .page{
+    max-width:900px;
+    margin:0 auto;
+    padding:0 40px 60px;
+  }
+
+  /* HEADER */
+  header{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:24px 0 18px;
+    border-bottom:3px solid var(--rouge);
+    margin-bottom:30px;
+  }
+  .logo{
+    display:flex;
+    align-items:center;
+    gap:12px;
+  }
+  .logo-mark{
+    width:42px;height:42px;
+    background:linear-gradient(135deg, var(--rouge) 50%, var(--bordeau) 50%);
+    clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
+  }
+  .logo-text{
+    font-weight:700;
+    font-size:20px;
+    color:var(--gris-fonce);
+    letter-spacing:1px;
+  }
+  .logo-text span{color:var(--rouge);}
+  .partner-tag{
+    text-align:right;
+    font-size:13px;
+    color:#888;
+  }
+
+  /* HERO */
+  .hero{
+    text-align:center;
+    padding:30px 20px 40px;
+    margin-bottom:10px;
+  }
+  .hero .eyebrow{
+    text-transform:uppercase;
+    letter-spacing:3px;
+    font-size:14px;
+    color:var(--gris-fonce);
+    font-weight:700;
+    margin-bottom:6px;
+  }
+  .hero h1{
+    font-size:34px;
+    color:var(--rouge);
+    margin:6px 0 20px;
+    font-weight:800;
+    line-height:1.25;
+  }
+  .sov-logo{
+    display:inline-block;
+    padding:10px 22px;
+    border:2px solid #e2e2e2;
+    border-radius:8px;
+    font-weight:700;
+    color:var(--bleu);
+    font-size:15px;
+    margin-bottom:18px;
+  }
+  .hero .baseline{
+    color:var(--rouge);
+    font-style:italic;
+    font-size:15px;
+  }
+
+  /* SECTIONS */
+  section{margin:48px 0;}
+  h2{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    font-size:20px;
+    color:#fff;
+    background:var(--rouge);
+    padding:10px 18px;
+    border-radius:6px;
+    margin-bottom:22px;
+  }
+  h2 .num{
+    background:rgba(255,255,255,.25);
+    border-radius:50%;
+    width:26px;height:26px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:14px;
+  }
+
+  ul{margin:8px 0 18px 0; padding-left:20px;}
+  li{margin-bottom:6px;}
+
+  .box{
+    background:var(--gris-clair);
+    border-left:4px solid var(--rouge);
+    padding:16px 20px;
+    border-radius:4px;
+    margin:16px 0;
+  }
+  .subhead{
+    font-weight:700;
+    color:var(--gris-fonce);
+    margin:22px 0 8px;
+    font-size:16px;
+  }
+
+  /* Timeline AVANT/PENDANT/APRES */
+  .phase{
+    margin-bottom:26px;
+  }
+  .phase-title{
+    font-weight:700;
+    color:var(--rouge);
+    text-transform:uppercase;
+    letter-spacing:1px;
+    font-size:14px;
+    margin-bottom:10px;
+    border-bottom:1px solid #eee;
+    padding-bottom:6px;
+  }
+  .atelier{
+    background:#fff8f8;
+    border:1px solid #f3d9dc;
+    border-radius:6px;
+    padding:14px 18px;
+    margin:12px 0;
+  }
+  .atelier b{color:var(--rouge-fonce);}
+  .atelier em{color:#555;}
+
+  /* Table étapes */
+  table{
+    width:100%;
+    border-collapse:collapse;
+    margin:20px 0;
+    font-size:14px;
+  }
+  th{
+    background:var(--gris-fonce);
+    color:#fff;
+    padding:10px 12px;
+    text-align:left;
+  }
+  td{
+    padding:10px 12px;
+    border-bottom:1px solid #eee;
+    vertical-align:top;
+  }
+  .step-num{
+    width:34px;height:34px;
+    border-radius:50%;
+    color:#fff;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-weight:700;
+    font-size:13px;
+  }
+  .step-presentiel{background:var(--vert);}
+  .step-intersession{background:var(--bleu);}
+  .step-distanciel{background:var(--orange);}
+  .legend{
+    display:flex;
+    gap:22px;
+    flex-wrap:wrap;
+    font-size:13px;
+    margin:12px 0 22px;
+  }
+  .legend span{display:flex;align-items:center;gap:6px;}
+  .dot{width:12px;height:12px;border-radius:50%;display:inline-block;}
+
+  /* Programme jours */
+  .jour{
+    margin-bottom:34px;
+  }
+  .jour-header{
+    background:var(--gris-fonce);
+    color:#fff;
+    padding:12px 20px;
+    border-radius:6px 6px 0 0;
+    font-size:17px;
+    font-weight:700;
+  }
+  .jour-body{
+    border:1px solid #eee;
+    border-top:none;
+    border-radius:0 0 6px 6px;
+    padding:20px;
+  }
+  .module{
+    margin-bottom:22px;
+    padding-bottom:18px;
+    border-bottom:1px dashed #e5e5e5;
+  }
+  .module:last-child{border-bottom:none;margin-bottom:0;padding-bottom:0;}
+  .module-title{
+    font-weight:700;
+    color:var(--gris-fonce);
+    font-size:15.5px;
+    margin-bottom:8px;
+    display:flex;
+    justify-content:space-between;
+    gap:10px;
+  }
+  .duree{
+    color:var(--rouge);
+    font-weight:700;
+    white-space:nowrap;
+    font-size:13.5px;
+  }
+  .module ul{margin-top:6px;}
+  .module li::marker{color:var(--rouge);}
+  .dynamique{
+    margin-top:10px;
+    font-size:13.5px;
+    color:var(--orange);
+    font-style:italic;
+    background:#fff6ee;
+    padding:8px 12px;
+    border-radius:4px;
+  }
+  .dynamique b{color:var(--orange);}
+
+  .philosophy{
+    text-align:center;
+    font-style:italic;
+    color:var(--gris-fonce);
+    font-size:16px;
+    padding:20px;
+    background:var(--gris-clair);
+    border-radius:8px;
+  }
+
+  footer{
+    margin-top:60px;
+    padding-top:20px;
+    border-top:2px solid var(--rouge);
+    text-align:center;
+    font-size:12px;
+    color:#888;
+    line-height:1.7;
+  }
+  footer a{color:var(--rouge);text-decoration:none;}
+
+  @media print{
+    body{-webkit-print-color-adjust:exact; print-color-adjust:exact;}
+  }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <header>
+    <div class="logo">
+      <div class="logo-mark"></div>
+      <div class="logo-text">SYNAPS <span>FORMATION</span></div>
+    </div>
+    <div class="partner-tag">Programme de formation<br>SOVITRAT — Groupe Sovitrat</div>
+  </header>
+
+  <div class="hero">
+    <div class="eyebrow">Programme</div>
+    <h1>Manager ses permanents<br>en agence</h1>
+    <div class="sov-logo">SOV <span style="color:#7ab648;">by</span> groupe SOVITRAT</div>
+    <div class="baseline">Accompagne votre stratégie et vos développements !</div>
+  </div>
+
+  <section>
+    <h2><span class="num">1</span> Vos objectifs</h2>
+    <p>Pour la réussite de votre projet de développement de compétences, vos objectifs sont donc les suivants :</p>
+    <ul>
+      <li>Développer le leadership du ou de la responsable d'agence</li>
+      <li>Manager et piloter la performance des permanents (AA, CR, CA)</li>
+    </ul>
+    <div class="subhead">Objectifs pédagogiques</div>
+    <ul>
+      <li>Partager sa vision, fédérer l'équipe des permanents</li>
+      <li>Fixer les objectifs, accompagner et piloter la performance de chaque permanent</li>
+      <li>Développer un esprit de corps et d'entraide</li>
+      <li>Trouver le point d'équilibre entre offensivité commerciale et douceur managériale</li>
+      <li>Mettre en place des stratégies de communication efficaces dans le cadre de rituels managériaux</li>
+      <li>Mieux comprendre ses collaborateurs et s'adapter à leur profil</li>
+      <li>Mieux se connaître pour mieux manager ses collaborateurs</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2><span class="num">2</span> Dynamique pédagogique (avant / pendant / après)</h2>
+
+    <div class="phase">
+      <div class="phase-title">Avant</div>
+      <ul>
+        <li>Auto-évaluation en ligne (15 min) : Test de leadership</li>
+        <li>Entretiens individuels avec 3 directeurs d'agence : échanges téléphonique ou visio</li>
+        <li>Questionnaire amont : identification des cas concrets à traiter pendant la formation</li>
+      </ul>
+    </div>
+
+    <div class="phase">
+      <div class="phase-title">Pendant — 2 jours intenses, 100% action</div>
+      <p><b>Méthode :</b> 80% de pratique, 20% de théorie. Cas réels apportés par les participants (anonymisés si besoin).</p>
+
+      <div class="atelier">
+        <b>Atelier phare — « Le défi du lundi matin »</b><br>
+        Simulation d'une réunion d'équipe après une semaine difficile (objectifs non atteints, client mécontent).<br>
+        <em>Objectif : trouver des solutions sans nier les émotions, en gardant le cap sur la performance.</em>
+      </div>
+
+      <div class="atelier">
+        <b>Autre exemple — « Le planning baisse et la marge aussi »</b><br>
+        Simulation de fixation des objectifs / briefing ou de débriefing, de félicitations ou encore de recadrage.
+      </div>
+    </div>
+
+    <div class="phase">
+      <div class="phase-title">Après — Un suivi qui ancre les changements</div>
+      <ul>
+        <li><b>Coaching individuel</b> (30 min/participant) à J+15 : revue des 3 actions prioritaires définies en formation, ajustement des outils si besoin</li>
+        <li><b>Session visio</b> à J+30 : partage des succès et difficultés, benchmark entre agences (qui a testé quoi ? quels résultats ?)</li>
+        <li><b>Mesure d'impact</b> à J+90 : sondage anonyme (taux de satisfaction, application des outils, succès enregistrés, indicateurs de performance), verbatims qualitatifs, bilan à froid</li>
+      </ul>
+    </div>
+
+    <p class="box">
+      Apprendre sérieusement sans se prendre au sérieux résume assez bien notre état d'esprit. Nous recourons à des analogies, des anecdotes, des histoires, des exemples concrets, des mises en situation réalistes qui intègrent votre univers, vos produits ou services. Notre objectif est d'accompagner vos collaborateurs du savoir au savoir-faire progressivement pour gagner en confiance, en plaisir et en performance.
+    </p>
+
+    <div class="subhead">Séquençage du parcours de formation</div>
+    <div class="legend">
+      <span><span class="dot" style="background:var(--vert);"></span> Présentiel</span>
+      <span><span class="dot" style="background:var(--bleu);"></span> Préparation / intersession</span>
+      <span><span class="dot" style="background:var(--orange);"></span> Distanciel</span>
+    </div>
+    <table>
+      <tr><th style="width:60px;">Étape</th><th>Prestation</th><th style="width:80px;">Durée</th><th>Objectifs</th></tr>
+      <tr>
+        <td><div class="step-num step-distanciel">1</div></td>
+        <td>Auto-évaluation en ligne</td><td>—</td>
+        <td>Test de leadership</td>
+      </tr>
+      <tr>
+        <td><div class="step-num step-distanciel">2</div></td>
+        <td>Échanges téléphonique ou visio préparatoire avec 3 DA du réseau</td><td>—</td>
+        <td>Questionnaire amont et identification des cas concrets à traiter pendant la formation</td>
+      </tr>
+      <tr>
+        <td><div class="step-num step-presentiel">3</div></td>
+        <td>Formation présentielle</td><td>2 jours</td>
+        <td>Voir programme</td>
+      </tr>
+      <tr>
+        <td><div class="step-num step-presentiel">4</div></td>
+        <td>Bilan à chaud</td><td>—</td>
+        <td>—</td>
+      </tr>
+      <tr>
+        <td><div class="step-num step-distanciel">5</div></td>
+        <td>Coaching individuel — J+15</td><td>30'</td>
+        <td>Revue des 3 actions prioritaires définies en formation. Ajustement des outils si besoin.</td>
+      </tr>
+      <tr>
+        <td><div class="step-num step-distanciel">6</div></td>
+        <td>Session visio collective — J+30</td><td>2h</td>
+        <td>Partage des succès et difficultés. Benchmark entre agences (qui a testé quoi ? quels résultats ?).</td>
+      </tr>
+      <tr>
+        <td><div class="step-num step-distanciel">7</div></td>
+        <td>Bilan à froid — J+90</td><td>1h</td>
+        <td>Sondage anonyme (taux de satisfaction, application des outils, succès enregistrés, indicateurs de performance). Verbatims qualitatifs, bilan à froid.</td>
+      </tr>
+    </table>
+  </section>
+
+  <section>
+    <h2><span class="num">3</span> Programme — Jours 1 et 2</h2>
+
+    <div class="jour">
+      <div class="jour-header">Jour 1 — Gérer son équipe et instaurer des rituels managériaux</div>
+      <div class="jour-body">
+        <div class="module">
+          <div class="module-title"><span>1. Comprendre et adapter son style de management</span><span class="duree">3h30</span></div>
+          <ul>
+            <li>Découvrir les 4 profils DISC (Dominance, Influence, Stabilité, Conformité) et leurs impacts sur la communication et le management</li>
+            <li>Identifier son propre profil et ses forces/limites en tant que manager</li>
+            <li>Connaître les différentes clés d'observation pour déterminer les couleurs dominantes de son interlocuteur</li>
+            <li>Différencier les styles de management : directif, persuasif, participatif, délégatif</li>
+            <li>Repérer son style de management</li>
+          </ul>
+          <div class="dynamique"><b>Dynamique pédagogique :</b> rapports DISC individuels, roue d'équipe, exercices écrits</div>
+        </div>
+
+        <div class="module">
+          <div class="module-title"><span>2. Adapter son style en fonction des collaborateurs et du contexte (management situationnel)</span><span class="duree">1h30</span></div>
+          <ul>
+            <li>Répartir les tâches en fonction de la taille de l'agence (2 à 5 personnes) et des profils</li>
+            <li>Déléguer efficacement : méthodes et outils pour clarifier les rôles et responsabilités</li>
+          </ul>
+          <div class="dynamique"><b>Dynamique pédagogique :</b> à partir de vos enjeux agence, études de cas concrets, répartition des missions</div>
+        </div>
+
+        <div class="module">
+          <div class="module-title"><span>3. Instaurer des rituels managériaux</span><span class="duree">2h</span></div>
+          <ul>
+            <li>Rituels quotidiens : lancement de journée, points courts, feedbacks, suivi des priorités</li>
+            <li>Rituels hebdomadaires : préparer et animer une réunion hebdomadaire, fixation d'objectifs collectifs, partage des indicateurs et retours sur performance et bilans individuels</li>
+            <li>Rituels annuels : bilan annuel (taux ATMP), marge, ETP, vivier candidats, prospections, clients actifs / inactifs…</li>
+          </ul>
+          <div class="dynamique"><b>Dynamique pédagogique :</b> mises en situation de natures d'objectifs spécifiques à vos agences</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="jour">
+      <div class="jour-header">Jour 2 — Leadership, communication, motivation et pilotage de la performance</div>
+      <div class="jour-body">
+        <div class="module">
+          <div class="module-title"><span>1. Distinguer leadership et management</span><span class="duree">2h</span></div>
+          <ul>
+            <li>Identifier les composantes du leadership</li>
+            <li>Partager ses ambitions et sa vision</li>
+            <li>Associer et mobiliser l'équipe autour de cette vision partagée</li>
+            <li>Développer au quotidien une posture de manager coach</li>
+          </ul>
+          <div class="dynamique"><b>Dynamique pédagogique :</b> élaborer le « portrait-robot » du leader et mises en situation de présentation de la vision et de co-développement pour mobiliser l'équipe</div>
+        </div>
+
+        <div class="module">
+          <div class="module-title"><span>2. Impliquer et motiver ses permanents sur les objectifs</span><span class="duree">2h30</span></div>
+          <ul>
+            <li>Actionner les leviers de motivation : questionnement, écoute, reconnaissance, autonomie, développement des compétences</li>
+            <li>Fixer des objectifs SMART (avec la méthode MALINS)</li>
+          </ul>
+          <div class="dynamique"><b>Dynamique pédagogique :</b> fixer des objectifs MALINS (prospection, sourcing, PAI…)</div>
+        </div>
+
+        <div class="module">
+          <div class="module-title"><span>3. Piloter la performance et clore la formation</span><span class="duree">2h30</span></div>
+          <ul>
+            <li>Définir et suivre les KPI clés (PAI, heures facturées, ETP, taux de marge, etc.)</li>
+            <li>Construire un tableau de bord simple pour le suivi quotidien</li>
+            <li>Accompagner l'évolution des indicateurs : actions correctives, recadrage, félicitations</li>
+          </ul>
+          <div class="dynamique"><b>Dynamique pédagogique :</b> formaliser 3 actions concrètes à mettre en place dans son agence sous 1 mois</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    SYNAPS FORMATION — Xavier LAYAC / 07 66 46 20 14 / <a href="mailto:xlayac@synaps-formation.com">xlayac@synaps-formation.com</a><br>
+    SASU dont le siège social est basé au 405 Avenue du 8 Mai 45, Le Belvédère, 69300 CALUIRE ET CUIRE<br>
+    Immatriculation au RCS, numéro 902 895 358 00015 R.C.S. Lyon<br>
+    Déclaration d'activité enregistrée sous le numéro 84691877969 auprès du préfet de région Auvergne-Rhône-Alpes<br>
+    Certifié QUALIOPI sous le n°3990
+  </footer>
+
+</div>
+</body>
+</html>
